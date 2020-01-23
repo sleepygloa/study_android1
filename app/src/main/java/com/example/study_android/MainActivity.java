@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Lifecycle", "1 : onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 //        Intent comingIntent = getIntent();
 //        boolean again = comingIntent.getBooleanExtra("AGAIN", true);
@@ -45,23 +47,29 @@ public class MainActivity extends AppCompatActivity {
 //        };
 //        Thread thread = new Thread(runnable);
 
-        //Thread 만드는 방법 2
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("runnable", "1");
-                Toast.makeText(MainActivity.this, "토스트", Toast.LENGTH_LONG).show();
-            }
-        }).start();
+//        //Thread 만드는 방법 2
+////        new Thread(new Runnable() {
+////            @Override
+////            public void run() {
+////                Log.d("runnable", "1");
+////                Toast.makeText(MainActivity.this, "토스트", Toast.LENGTH_LONG).show();
+////            }
+////        }).start();
+////
+////
+////        //Ui Thread 만드는 법
+////        runOnUiThread(new Runnable() {
+////            @Override
+////            public void run() {
+////                Toast.makeText(MainActivity.this, "토스트", Toast.LENGTH_LONG).show();
+////            }
+////        });
 
+//        Context context = this; //Activity Context
+//        //Context context = MainActivity.this;
+//
+//        Context applicationContext = getApplicationContext(); //Application Context
 
-        //Ui Thread 만드는 법
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(MainActivity.this, "토스트", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
 //  @Override
