@@ -8,7 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView imageView;
     TextView textView;
+    EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,22 +31,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //xml 의 뷰 컴포넌트를 자바로 가져오는 방법
-        imageView = findViewById(R.id.imageView1);
-        textView = findViewById(R.id.textview1);
+        textView = findViewById(R.id.textView);
+        textView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        //xml의 뷰 컴포넌트를 동적으로 변경하는 방법
-        imageView.setImageResource(R.drawable.mountain_2);
-        textView.setText("안녕하세요");
+        editText = findViewById(R.id.editText);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.d("beforeTextChanged", " s : "+s);
+                Log.d("beforeTextChanged", " start : "+start);
+                Log.d("beforeTextChanged", " count : "+count);
+                Log.d("beforeTextChanged", " after : "+after);
+            }
 
-        //Res 에 정의도니 string을 가져오는 방법
-        String content = getApplicationContext().getResources().getString(R.string.long_text);
-        textView.setText(content);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("onTextChanged", " s : "+s);
+                Log.d("onTextChanged", " start : "+start);
+                Log.d("onTextChanged", " before : "+before);
+                Log.d("onTextChanged", " count : "+count);
+            }
 
-        //Res에 정의된 string-array 가져오는 방법
-        getApplicationContext().getResources().getStringArray(R.array.string_array);
-        Log.d("string_array", getApplicationContext().getResources().getStringArray(R.array.string_array)[1]);
-
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d("afterTextChanged", " s : "+s);
+            }
+        });
 
 //        Intent comingIntent = getIntent();
 //        boolean again = comingIntent.getBooleanExtra("AGAIN", true);
@@ -91,7 +112,25 @@ public class MainActivity extends AppCompatActivity {
 //
 //        Context applicationContext = getApplicationContext(); //Application Context
 
+
+//        //xml 의 뷰 컴포넌트를 자바로 가져오는 방법
+//        imageView = findViewById(R.id.imageView1);
+//        textView = findViewById(R.id.textview1);
+//
+//        //xml의 뷰 컴포넌트를 동적으로 변경하는 방법
+//        imageView.setImageResource(R.drawable.mountain_2);
+//        textView.setText("안녕하세요");
+//
+//        //Res 에 정의도니 string을 가져오는 방법
+//        String content = getApplicationContext().getResources().getString(R.string.long_text);
+//        textView.setText(content);
+//
+//        //Res에 정의된 string-array 가져오는 방법
+//        getApplicationContext().getResources().getStringArray(R.array.string_array);
+//        Log.d("string_array", getApplicationContext().getResources().getStringArray(R.array.string_array)[1]);
+
     }
+
 
 //  @Override
 ////  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
