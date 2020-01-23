@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,29 +20,61 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //명시적 Intent
-        Intent intent = new Intent(this, SecondActivity.class);
-        intent.putExtra("INTENT_KEY", 5);
-        //startActivity(intent);
-        startActivityForResult(intent, REQUEST_CODE);
+//        Intent comingIntent = getIntent();
+//        boolean again = comingIntent.getBooleanExtra("AGAIN", true);
+//        Log.d("AGAIN", ""+again);
+//
+//        //명시적 Intent
+//        Intent intent = new Intent(this, SecondActivity.class);
+//        intent.putExtra("INTENT_KEY", 5);
+//        //startActivity(intent);
+//        startActivityForResult(intent, REQUEST_CODE);
 
         //암시적 Intent
 //        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https:google.com"));
 //        startActivity(intent);
 
+
+        //객체 선언후 객체를 다른곳에서 활용할떄
+        //Thread 만드는 방법
+//        final Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            };
+//        };
+//        Thread thread = new Thread(runnable);
+
+        //Thread 만드는 방법 2
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("runnable", "1");
+                Toast.makeText(MainActivity.this, "토스트", Toast.LENGTH_LONG).show();
+            }
+        }).start();
+
+
+        //Ui Thread 만드는 법
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, "토스트", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
-        if(requestCode == REQUEST_CODE){
-            if(resultCode == 200){
-                String result = data.getStringExtra("RESULT");
-                Log.d("onActivityResult", "result : " + result);
-            }else if(resultCode == 300){
-            }
-
-        }
-  }
+//  @Override
+////  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+////        if(requestCode == REQUEST_CODE){
+////            if(resultCode == 200){
+////                String result = data.getStringExtra("RESULT");
+////                Log.d("onActivityResult", "result : " + result);
+////            }else if(resultCode == 300){
+////            }
+////
+////        }
+////  }
 
 /*
     @Override

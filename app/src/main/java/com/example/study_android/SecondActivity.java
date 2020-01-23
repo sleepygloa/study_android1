@@ -20,10 +20,16 @@ public class SecondActivity extends AppCompatActivity {
 //        int data = intent.getIntExtra("INTENT_KEY", 0);
 //        Log.d("INTENT_KEY", ""+data);
 
-        Intent intent = new Intent();
-        intent.putExtra("RESULT", "성공");
-        setResult(200, intent);
-        finish();
+//        Intent intent = new Intent();
+//        intent.putExtra("RESULT", "성공");
+//        setResult(200, intent);
+//        finish();
+
+//        //명시적 Intent
+//        Intent intent = new Intent(this, ThirdActivity.class);
+//        intent.putExtra("INTENT_KEY", 5);
+//        startActivity(intent);
+
 
     }
 
