@@ -6,6 +6,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical"
+        />
+    
+    <fragment
+        android:id="@+id/fragment_one"
+        android:name="com.example.study_android.FlagmentTwo"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        />
+
+
 <!--
     <ImageView
         android:id="@+id/imageView1"
@@ -30,7 +52,7 @@
         android:textSize="50dp"
         />
 -->
-
+<!--
     <TextView
         android:id="@+id/textView"
         android:layout_width="100dp"
@@ -47,5 +69,6 @@
         android:hint="입력해주세요"
         android:textColorHint="@color/colorAccent"
         />
+    -->
 
 </LinearLayout>

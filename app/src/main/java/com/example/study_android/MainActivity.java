@@ -3,6 +3,9 @@ package com.example.study_android;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +15,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,50 +29,84 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     EditText editText;
 
+    FragmentManager framentManager;
+    Button button;
+
+    public static final String BUNDLE_KEY = "bundle_key";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("Lifecycle", "1 : onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.textView);
-        textView.setOnClickListener(new View.OnClickListener(){
+
+        Fragment fragmentOne = new Fragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("BUNDLE_KEY", 10);
+        fragmentOne.setArguments(bundle);
+
+
+        framentManager = getSupportFragmentManager();
+        final FragmentTransaction fragmentTransaction = framentManager.beginTransaction();
+        //fragmentTransaction.add(R.id.container, new FlagmentOne());
+        fragmentTransaction.add(R.id.container, fragmentOne);
+        fragmentTransaction.commit();
+        //확인1
+        //확인2
+        //확인3
+        button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v){
-                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-                startActivity(intent);
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = framentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container, new FlagmentTwo());
+                fragmentTransaction.commit();
             }
         });
 
-        editText = findViewById(R.id.editText);
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.d("beforeTextChanged", " s : "+s);
-                Log.d("beforeTextChanged", " start : "+start);
-                Log.d("beforeTextChanged", " count : "+count);
-                Log.d("beforeTextChanged", " after : "+after);
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d("onTextChanged", " s : "+s);
-                Log.d("onTextChanged", " start : "+start);
-                Log.d("onTextChanged", " before : "+before);
-                Log.d("onTextChanged", " count : "+count);
-            }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                Log.d("afterTextChanged", " s : "+s);
-            }
-        });
+// 계산기 프로젝트
+//        textView = findViewById(R.id.textView);
+//        textView.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        editText = findViewById(R.id.editText);
+//        editText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                Log.d("beforeTextChanged", " s : "+s);
+//                Log.d("beforeTextChanged", " start : "+start);
+//                Log.d("beforeTextChanged", " count : "+count);
+//                Log.d("beforeTextChanged", " after : "+after);
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                Log.d("onTextChanged", " s : "+s);
+//                Log.d("onTextChanged", " start : "+start);
+//                Log.d("onTextChanged", " before : "+before);
+//                Log.d("onTextChanged", " count : "+count);
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                Log.d("afterTextChanged", " s : "+s);
+//            }
+//        });
 
 //        Intent comingIntent = getIntent();
 //        boolean again = comingIntent.getBooleanExtra("AGAIN", true);
 //        Log.d("AGAIN", ""+again);
 //
-//        //명시적 Intent
+//        //명시적 I....................ntent
 //        Intent intent = new Intent(this, SecondActivity.class);
 //        intent.putExtra("INTENT_KEY", 5);
 //        //startActivity(intent);
