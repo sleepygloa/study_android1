@@ -16,10 +16,13 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,39 +56,80 @@ public class MainActivity extends AppCompatActivity {
     LayoutInflater layoutInflater;
     LinearLayout container;
 
+    ArrayList<String> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("Lifecycle", "1 : onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        stringList = new ArrayList<String>();
-        stringList.add("가");
-        stringList.add("나");
-        stringList.add("다");
-        stringList.add("라");
-        stringList.add("마");
-        stringList.add("바");
-        stringList.add("사");
+        ListView  listView = findViewById(R.id.list_view);
 
-        container = findViewById(R.id.container);
+        list = new ArrayList<String>();
+        list.add("가");
+        list.add("나");
+        list.add("가");
+        list.add("가");
+        list.add("가");
+        list.add("가");
+        list.add("가");
+        list.add("가");
+        list.add("가");
+        list.add("가");
+        list.add("가");
+        list.add("가");
+        list.add("가");
+        list.add("가");
 
-        layoutInflater = LayoutInflater.from(MainActivity.this);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View header = layoutInflater.inflate(R.layout.header_view, null, false);
+        View footer = layoutInflater.inflate(R.layout.footer_view, null, false);
 
-        for(int i = 0; i < stringList.size(); i++){
-            View view = layoutInflater.inflate(R.layout.list_item_view, null, false);
-            TextView itemText = view.findViewById(R.id.item_view_text);
-            itemText.setText(stringList.get(i));
+        listView.addHeaderView(header);
+        listView.addFooterView(footer);
 
-            view.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    Log.d("test", "CLICK");
-                }
-            });
 
-            container.addView(view);
-        }
+
+
+        final MyAdapter myAdapter = new MyAdapter(MainActivity.this, list);
+        header.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                list.set(1, "가");
+                Log.d("test", "list change");
+                myAdapter.notifyDataSetChanged();
+            }
+        });
+        listView.setAdapter(myAdapter);
+
+
+//        stringList = new ArrayList<String>();
+//        stringList.add("가");
+//        stringList.add("나");
+//        stringList.add("다");
+//        stringList.add("라");
+//        stringList.add("마");
+//        stringList.add("바");
+//        stringList.add("사");
+//
+//        container = findViewById(R.id.container);
+//
+//        layoutInflater = LayoutInflater.from(MainActivity.this);
+//
+//        for(int i = 0; i < stringList.size(); i++){
+//            View view = layoutInflater.inflate(R.layout.list_item_view, null, false);
+//            TextView itemText = view.findViewById(R.id.item_view_text);
+//            itemText.setText(stringList.get(i));
+//
+//            view.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View v) {
+//                    Log.d("test", "CLICK");
+//                }
+//            });
+//
+//            container.addView(view);
+//        }
 
 
 //        context = this;
@@ -293,5 +337,54 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+    class MyAdapter extends BaseAdapter{
+        private ViewHolder viewHolder;
+        private LayoutInflater inflater;
+        private ArrayList<String> itemList;
+
+        public MyAdapter(Context context, ArrayList<String> itemList){
+            this.itemList = itemList;
+            this.inflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public int getCount() {
+            return itemList.size();
+        }
+
+        @Override
+        public String getItem(int position) {
+            return itemList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = convertView;
+            if(view == null){
+                viewHolder = new ViewHolder();
+                view = inflater.inflate(R.layout.list_item_view, null);
+                viewHolder.textView = view.findViewById(R.id.item_view_text);
+                view.setTag(viewHolder);
+
+            }else{
+                viewHolder = (ViewHolder) view.getTag();
+            }
+            viewHolder.textView.setText(getItem(position));
+
+
+            return view;
+        }
+
+        class ViewHolder {
+            public TextView textView = null;
+        }
+    }
 
 }
