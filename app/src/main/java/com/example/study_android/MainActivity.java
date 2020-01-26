@@ -1,11 +1,15 @@
 package com.example.study_android;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertController;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -57,50 +61,113 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout container;
 
     ArrayList<String> list;
+
+    RecyclerView recyclerView;
+    ArrayList<String> itemList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("Lifecycle", "1 : onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView  listView = findViewById(R.id.list_view);
 
-        list = new ArrayList<String>();
-        list.add("가");
-        list.add("나");
-        list.add("가");
-        list.add("가");
-        list.add("가");
-        list.add("가");
-        list.add("가");
-        list.add("가");
-        list.add("가");
-        list.add("가");
-        list.add("가");
-        list.add("가");
-        list.add("가");
-        list.add("가");
+        recyclerView = findViewById(R.id.recycler_view);
+        itemList = new ArrayList<String>();
+        itemList.add("가");
+        itemList.add("나");
+        itemList.add("가");
+        itemList.add("가");
+        itemList.add("가");
+        itemList.add("가");
+        itemList.add("가");
+        itemList.add("가");
+        itemList.add("가");
+        itemList.add("가");
+        itemList.add("가");
+        itemList.add("가");
+        itemList.add("가");
+        itemList.add("가");
 
-        LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View header = layoutInflater.inflate(R.layout.header_view, null, false);
-        View footer = layoutInflater.inflate(R.layout.footer_view, null, false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(new MyAdapter(itemList));
+    }
+        class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
-        listView.addHeaderView(header);
-        listView.addFooterView(footer);
-
-
-
-
-        final MyAdapter myAdapter = new MyAdapter(MainActivity.this, list);
-        header.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                list.set(1, "가");
-                Log.d("test", "list change");
-                myAdapter.notifyDataSetChanged();
+            private ArrayList<String> itemList;
+            public MyAdapter(ArrayList<String> itemList){
+                this.itemList = itemList;
             }
-        });
-        listView.setAdapter(myAdapter);
+
+
+            @NonNull
+            @Override
+            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+                View view = layoutInflater.inflate(R.layout.item_view, parent, false);
+                return new ViewHolder(view);
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+                viewHolder.textView.setText(itemList.get(position));
+            }
+
+            @Override
+            public int getItemCount() {
+                return itemList.size();
+            }
+
+            class ViewHolder extends RecyclerView.ViewHolder{
+                TextView textView;
+
+
+                public ViewHolder(@NonNull View itemView){
+                    super(itemView);
+                    textView = itemView.findViewById(R.id.item_text);
+                }
+            }
+
+
+//        ListView  listView = findViewById(R.id.list_view);
+//
+//        list = new ArrayList<String>();
+//        list.add("가");
+//        list.add("나");
+//        list.add("가");
+//        list.add("가");
+//        list.add("가");
+//        list.add("가");
+//        list.add("가");
+//        list.add("가");
+//        list.add("가");
+//        list.add("가");
+//        list.add("가");
+//        list.add("가");
+//        list.add("가");
+//        list.add("가");
+//
+//        LayoutInflater layoutInflater = LayoutInflater.from(this);
+//        View header = layoutInflater.inflate(R.layout.header_view, null, false);
+//        View footer = layoutInflater.inflate(R.layout.footer_view, null, false);
+//
+//        listView.addHeaderView(header);
+//        listView.addFooterView(footer);
+//
+//
+//
+//
+//        final MyAdapter myAdapter = new MyAdapter(MainActivity.this, list);
+//        header.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                list.set(1, "가");
+//                Log.d("test", "list change");
+//                myAdapter.notifyDataSetChanged();
+//            }
+//        });
+//        listView.setAdapter(myAdapter);
 
 
 //        stringList = new ArrayList<String>();
@@ -338,53 +405,55 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    class MyAdapter extends BaseAdapter{
-        private ViewHolder viewHolder;
-        private LayoutInflater inflater;
-        private ArrayList<String> itemList;
 
-        public MyAdapter(Context context, ArrayList<String> itemList){
-            this.itemList = itemList;
-            this.inflater = LayoutInflater.from(context);
-        }
-
-        @Override
-        public int getCount() {
-            return itemList.size();
-        }
-
-        @Override
-        public String getItem(int position) {
-            return itemList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = convertView;
-            if(view == null){
-                viewHolder = new ViewHolder();
-                view = inflater.inflate(R.layout.list_item_view, null);
-                viewHolder.textView = view.findViewById(R.id.item_view_text);
-                view.setTag(viewHolder);
-
-            }else{
-                viewHolder = (ViewHolder) view.getTag();
-            }
-            viewHolder.textView.setText(getItem(position));
-
-
-            return view;
-        }
-
-        class ViewHolder {
-            public TextView textView = null;
-        }
-    }
+//
+//    class MyAdapter extends BaseAdapter{
+//        private ViewHolder viewHolder;
+//        private LayoutInflater inflater;
+//        private ArrayList<String> itemList;
+//
+//        public MyAdapter(Context context, ArrayList<String> itemList){
+//            this.itemList = itemList;
+//            this.inflater = LayoutInflater.from(context);
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return itemList.size();
+//        }
+//
+//        @Override
+//        public String getItem(int position) {
+//            return itemList.get(position);
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            return 0;
+//        }
+//
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            View view = convertView;
+//            if(view == null){
+//                viewHolder = new ViewHolder();
+//                view = inflater.inflate(R.layout.list_item_view, null);
+//                viewHolder.textView = view.findViewById(R.id.item_view_text);
+//                view.setTag(viewHolder);
+//
+//            }else{
+//                viewHolder = (ViewHolder) view.getTag();
+//            }
+//            viewHolder.textView.setText(getItem(position));
+//
+//
+//            return view;
+//        }
+//
+//        class ViewHolder {
+//            public TextView textView = null;
+//        }
+//    }
 
 }
