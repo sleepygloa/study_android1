@@ -14,16 +14,21 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.RequestOptions;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageViewFour;
     Context context;
 
+    ArrayList<String> stringList;
+    LayoutInflater layoutInflater;
+    LinearLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,33 +59,62 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        context = this;
-        imageViewOne = findViewById(R.id.image_one);
-        imageViewTwo = findViewById(R.id.image_two);
-        imageViewThree = findViewById(R.id.image_three);
-        imageViewFour = findViewById(R.id.image_four);
+        stringList = new ArrayList<String>();
+        stringList.add("가");
+        stringList.add("나");
+        stringList.add("다");
+        stringList.add("라");
+        stringList.add("마");
+        stringList.add("바");
+        stringList.add("사");
 
-        //웹 이미지 넣는 방법
-        Glide.with(MainActivity.this)
-            .load("http://post.phinf.naver.net/MjAxNzEyMDhfNDIg/MDAxNTEyNzIxNDUyMzc4.Vo9sfxImkLvkGHRC9XdDL24GKu47He19K-2CN-tfpmcg.UB3tvdcrSGLB1FUP5Njgx724jG1G7l_Ph56xZBY52XIg.JPEG/IcFL8dbgYvPz4T_yqWEoDWEIdGUw.jpg")
-            .into(imageViewOne);
+        container = findViewById(R.id.container);
 
-        //option을 사용하는 방법
-        RequestOptions cropOption = new RequestOptions().centerCrop();
-        Glide.with(context)
-            .load("http://post.phinf.naver.net/MjAxNzEyMDhfNDIg/MDAxNTEyNzIxNDUyMzc4.Vo9sfxImkLvkGHRC9XdDL24GKu47He19K-2CN-tfpmcg.UB3tvdcrSGLB1FUP5Njgx724jG1G7l_Ph56xZBY52XIg.JPEG/IcFL8dbgYvPz4T_yqWEoDWEIdGUw.jpg")
-            .apply(cropOption)
-            .into(imageViewTwo);
+        layoutInflater = LayoutInflater.from(MainActivity.this);
 
-        //option을 사용하는 방법
-        RequestOptions circleCrop = new RequestOptions().circleCrop();
-        Glide.with(context)
-                .load("http://post.phinf.naver.net/MjAxNzEyMDhfNDIg/MDAxNTEyNzIxNDUyMzc4.Vo9sfxImkLvkGHRC9XdDL24GKu47He19K-2CN-tfpmcg.UB3tvdcrSGLB1FUP5Njgx724jG1G7l_Ph56xZBY52XIg.JPEG/IcFL8dbgYvPz4T_yqWEoDWEIdGUw.jpg")
-                .apply(circleCrop)
-                .into(imageViewThree);
+        for(int i = 0; i < stringList.size(); i++){
+            View view = layoutInflater.inflate(R.layout.list_item_view, null, false);
+            TextView itemText = view.findViewById(R.id.item_view_text);
+            itemText.setText(stringList.get(i));
 
-        //로컬 이미지 불러오는 방법
-        Glide.with(context).load(R.drawable.ic_launcher_background).into(imageViewFour);
+            view.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Log.d("test", "CLICK");
+                }
+            });
+
+            container.addView(view);
+        }
+
+
+//        context = this;
+//        imageViewOne = findViewById(R.id.image_one);
+//        imageViewTwo = findViewById(R.id.image_two);
+//        imageViewThree = findViewById(R.id.image_three);
+//        imageViewFour = findViewById(R.id.image_four);
+//
+//        //웹 이미지 넣는 방법
+//        Glide.with(MainActivity.this)
+//            .load("http://post.phinf.naver.net/MjAxNzEyMDhfNDIg/MDAxNTEyNzIxNDUyMzc4.Vo9sfxImkLvkGHRC9XdDL24GKu47He19K-2CN-tfpmcg.UB3tvdcrSGLB1FUP5Njgx724jG1G7l_Ph56xZBY52XIg.JPEG/IcFL8dbgYvPz4T_yqWEoDWEIdGUw.jpg")
+//            .into(imageViewOne);
+//
+//        //option을 사용하는 방법
+//        RequestOptions cropOption = new RequestOptions().centerCrop();
+//        Glide.with(context)
+//            .load("http://post.phinf.naver.net/MjAxNzEyMDhfNDIg/MDAxNTEyNzIxNDUyMzc4.Vo9sfxImkLvkGHRC9XdDL24GKu47He19K-2CN-tfpmcg.UB3tvdcrSGLB1FUP5Njgx724jG1G7l_Ph56xZBY52XIg.JPEG/IcFL8dbgYvPz4T_yqWEoDWEIdGUw.jpg")
+//            .apply(cropOption)
+//            .into(imageViewTwo);
+//
+//        //option을 사용하는 방법
+//        RequestOptions circleCrop = new RequestOptions().circleCrop();
+//        Glide.with(context)
+//                .load("http://post.phinf.naver.net/MjAxNzEyMDhfNDIg/MDAxNTEyNzIxNDUyMzc4.Vo9sfxImkLvkGHRC9XdDL24GKu47He19K-2CN-tfpmcg.UB3tvdcrSGLB1FUP5Njgx724jG1G7l_Ph56xZBY52XIg.JPEG/IcFL8dbgYvPz4T_yqWEoDWEIdGUw.jpg")
+//                .apply(circleCrop)
+//                .into(imageViewThree);
+//
+//        //로컬 이미지 불러오는 방법
+//        Glide.with(context).load(R.drawable.ic_launcher_background).into(imageViewFour);
 
 //        Fragment fragmentOne = new Fragment();
 //        Bundle bundle = new Bundle();
