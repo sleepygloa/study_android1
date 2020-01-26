@@ -7,6 +7,30 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/image_one"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+
+    <ImageView
+        android:id="@+id/image_two"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        />
+
+    <ImageView
+        android:id="@+id/image_three"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        />
+
+    <ImageView
+        android:id="@+id/image_four"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        />
+    <!--
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
@@ -25,7 +49,7 @@
         android:name="com.example.study_android.FlagmentTwo"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        />
+        />-->
 
 
 <!--

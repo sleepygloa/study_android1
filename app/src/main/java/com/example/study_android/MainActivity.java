@@ -21,6 +21,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.RequestOptions;
+
 public class MainActivity extends AppCompatActivity {
 
     int REQUEST_CODE = 1000;
@@ -34,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String BUNDLE_KEY = "bundle_key";
 
+    ImageView imageViewOne;
+    ImageView imageViewTwo;
+    ImageView imageViewThree;
+    ImageView imageViewFour;
+    Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,30 +51,55 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        context = this;
+        imageViewOne = findViewById(R.id.image_one);
+        imageViewTwo = findViewById(R.id.image_two);
+        imageViewThree = findViewById(R.id.image_three);
+        imageViewFour = findViewById(R.id.image_four);
 
-        Fragment fragmentOne = new Fragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("BUNDLE_KEY", 10);
-        fragmentOne.setArguments(bundle);
+        //웹 이미지 넣는 방법
+        Glide.with(MainActivity.this)
+            .load("http://post.phinf.naver.net/MjAxNzEyMDhfNDIg/MDAxNTEyNzIxNDUyMzc4.Vo9sfxImkLvkGHRC9XdDL24GKu47He19K-2CN-tfpmcg.UB3tvdcrSGLB1FUP5Njgx724jG1G7l_Ph56xZBY52XIg.JPEG/IcFL8dbgYvPz4T_yqWEoDWEIdGUw.jpg")
+            .into(imageViewOne);
 
+        //option을 사용하는 방법
+        RequestOptions cropOption = new RequestOptions().centerCrop();
+        Glide.with(context)
+            .load("http://post.phinf.naver.net/MjAxNzEyMDhfNDIg/MDAxNTEyNzIxNDUyMzc4.Vo9sfxImkLvkGHRC9XdDL24GKu47He19K-2CN-tfpmcg.UB3tvdcrSGLB1FUP5Njgx724jG1G7l_Ph56xZBY52XIg.JPEG/IcFL8dbgYvPz4T_yqWEoDWEIdGUw.jpg")
+            .apply(cropOption)
+            .into(imageViewTwo);
 
-        framentManager = getSupportFragmentManager();
-        final FragmentTransaction fragmentTransaction = framentManager.beginTransaction();
-        //fragmentTransaction.add(R.id.container, new FlagmentOne());
-        fragmentTransaction.add(R.id.container, fragmentOne);
-        fragmentTransaction.commit();
-        //확인1
-        //확인2
-        //확인3
-        button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = framentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container, new FlagmentTwo());
-                fragmentTransaction.commit();
-            }
-        });
+        //option을 사용하는 방법
+        RequestOptions circleCrop = new RequestOptions().circleCrop();
+        Glide.with(context)
+                .load("http://post.phinf.naver.net/MjAxNzEyMDhfNDIg/MDAxNTEyNzIxNDUyMzc4.Vo9sfxImkLvkGHRC9XdDL24GKu47He19K-2CN-tfpmcg.UB3tvdcrSGLB1FUP5Njgx724jG1G7l_Ph56xZBY52XIg.JPEG/IcFL8dbgYvPz4T_yqWEoDWEIdGUw.jpg")
+                .apply(circleCrop)
+                .into(imageViewThree);
+
+        //로컬 이미지 불러오는 방법
+        Glide.with(context).load(R.drawable.ic_launcher_background).into(imageViewFour);
+
+//        Fragment fragmentOne = new Fragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("BUNDLE_KEY", 10);
+//        fragmentOne.setArguments(bundle);
+//
+//
+//        framentManager = getSupportFragmentManager();
+//        final FragmentTransaction fragmentTransaction = framentManager.beginTransaction();
+//        //fragmentTransaction.add(R.id.container, new FlagmentOne());
+//        fragmentTransaction.add(R.id.container, fragmentOne);
+//        fragmentTransaction.commit();
+//
+//        button = findViewById(R.id.button);
+//        button.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                FragmentTransaction fragmentTransaction = framentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.container, new FlagmentTwo());
+//                fragmentTransaction.commit();
+//            }
+//        });
 
 
 
