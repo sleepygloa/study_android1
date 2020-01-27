@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -34,6 +35,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -75,36 +77,72 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewPager = findViewById(R.id.view_pager);
-        tabLayout = findViewById(R.id.tab_layout);
+        String sharedPreferencesName = "SAVE_1";
+        String sharedPreferencesKey = "KEY";
 
+        //Sharedpreferences 에 데이터 저장하는 방법
+        SharedPreferences sharedPreferences = getSharedPreferences(sharedPreferencesName, MODE_PRIVATE);
 
-        tabLayout.addTab(tabLayout.newTab().setText("ONE"));
-        tabLayout.addTab(tabLayout.newTab().setText("TWO"));
-        tabLayout.addTab(tabLayout.newTab().setText("THREE"));
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(sharedPreferencesKey, "안녕하세요");
+        editor.commit();
 
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), 3);
-        viewPager.setAdapter(pagerAdapter);
+        //Sharedpreferences 에 데이터 불러오는 방법
+        String value = sharedPreferences.getString(sharedPreferencesKey, "");
+        Log.d("test", "value : " + value);
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
+        //Sharedpreferences 에 데이터 삭제하는 방법
+        editor.remove(sharedPreferencesKey);
+        editor.clear();
+        editor.commit();
 
-                viewPager.setCurrentItem(tab.getPosition());
-            }
+        //Sharedpreferences 에 데이터 불러오는 방법
+        value = sharedPreferences.getString(sharedPreferencesKey, "실패");
+        Log.d("test", "value : " + value);
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+        Person person = new Person("홍길동", 20);
+        Gson gson = new Gson();
+        String personJson = gson.toJson(person);
+        Log.d("test", "value : " + personJson);
+        String sharedPreferencePersonKey = "person_key";
+        editor.putString(sharedPreferencePersonKey, personJson);
+        editor.commit();
 
-            }
+        String personString = sharedPreferences.getString(sharedPreferencePersonKey, "실패_2");
+        Person loadedPerson = gson.fromJson(personString, Person.class);
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+        Log.d("test", "person age : "+ loadedPerson.age);
 
-            }
-
-        });
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+//        viewPager = findViewById(R.id.view_pager);
+//        tabLayout = findViewById(R.id.tab_layout);
+//
+//
+//        tabLayout.addTab(tabLayout.newTab().setText("ONE"));
+//        tabLayout.addTab(tabLayout.newTab().setText("TWO"));
+//        tabLayout.addTab(tabLayout.newTab().setText("THREE"));
+//
+//        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), 3);
+//        viewPager.setAdapter(pagerAdapter);
+//
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//
+//                viewPager.setCurrentItem(tab.getPosition());
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//        });
+//        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
 //        recyclerView = findViewById(R.id.recycler_view);
 //        itemList = new ArrayList<String>();
