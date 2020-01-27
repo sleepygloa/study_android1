@@ -6,81 +6,65 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class FlagmentOne extends Fragment {
-    View view;
+public class FlagmentThree extends Fragment {
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.d("Lifecycle", "FlagmentOne : onAttach");
+        Log.d("Lifecycle", "FlagmentThree : onAttach");
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Lifecycle", "FlagmentOne : onCreate");
+        Log.d("Lifecycle", "FlagmentThree : onCreate");
     }
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(R.layout.fragment_one, container, false);
-        return view;
-
+//        return super.onCreateView(inflater, container, savedInstanceState);
+        return inflater.inflate(R.layout.fragment_three, container, false);
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d("Lifecycle", "FlagmentOne : onActivityCreated");
-
-//        int number = getArguments().getInt("BUNDLE_KEY");
-//        Log.d("test", ""+number);
-//
-//        Button button = view.findViewById(R.id.fragment_one_button);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("test", "button");
-//
-//            }
-//        });
+        Log.d("Lifecycle", "FlagmentThree : onActivityCreated");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("Lifecycle", "FlagmentOne : onStart");
+        Log.d("Lifecycle", "FlagmentThree : onStart");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("Lifecycle", "FlagmentOne : onPause");
+        Log.d("Lifecycle", "FlagmentThree : onPause");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d("Lifecycle", "FlagmentOne : onDestroyView");
+        Log.d("Lifecycle", "FlagmentThree : onDestroyView");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("Lifecycle", "FlagmentOne : onDestroy");
+        Log.d("Lifecycle", "FlagmentThree : onDestroy");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d("Lifecycle", "FlagmentOne : onDetach");
+        Log.d("Lifecycle", "FlagmentThree : onDetach");
     }
 }

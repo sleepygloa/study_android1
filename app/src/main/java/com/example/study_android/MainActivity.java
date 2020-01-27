@@ -2,7 +2,6 @@ package com.example.study_android;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertController;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
@@ -10,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.tabs.TabLayout;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -65,69 +66,102 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<String> itemList;
 
+    ViewPager viewPager;
+    TabLayout tabLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("Lifecycle", "1 : onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        recyclerView = findViewById(R.id.recycler_view);
-        itemList = new ArrayList<String>();
-        itemList.add("가");
-        itemList.add("나");
-        itemList.add("가");
-        itemList.add("가");
-        itemList.add("가");
-        itemList.add("가");
-        itemList.add("가");
-        itemList.add("가");
-        itemList.add("가");
-        itemList.add("가");
-        itemList.add("가");
-        itemList.add("가");
-        itemList.add("가");
-        itemList.add("가");
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new MyAdapter(itemList));
-    }
-        class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
-
-            private ArrayList<String> itemList;
-            public MyAdapter(ArrayList<String> itemList){
-                this.itemList = itemList;
-            }
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
 
 
-            @NonNull
+        tabLayout.addTab(tabLayout.newTab().setText("ONE"));
+        tabLayout.addTab(tabLayout.newTab().setText("TWO"));
+        tabLayout.addTab(tabLayout.newTab().setText("THREE"));
+
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), 3);
+        viewPager.setAdapter(pagerAdapter);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
             @Override
-            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-                View view = layoutInflater.inflate(R.layout.item_view, parent, false);
-                return new ViewHolder(view);
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
-            public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-                viewHolder.textView.setText(itemList.get(position));
+            public void onTabUnselected(TabLayout.Tab tab) {
+
             }
 
             @Override
-            public int getItemCount() {
-                return itemList.size();
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
 
-            class ViewHolder extends RecyclerView.ViewHolder{
-                TextView textView;
+        });
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-
-                public ViewHolder(@NonNull View itemView){
-                    super(itemView);
-                    textView = itemView.findViewById(R.id.item_text);
-                }
-            }
+//        recyclerView = findViewById(R.id.recycler_view);
+//        itemList = new ArrayList<String>();
+//        itemList.add("가");
+//        itemList.add("나");
+//        itemList.add("가");
+//        itemList.add("가");
+//        itemList.add("가");
+//        itemList.add("가");
+//        itemList.add("가");
+//        itemList.add("가");
+//        itemList.add("가");
+//        itemList.add("가");
+//        itemList.add("가");
+//        itemList.add("가");
+//        itemList.add("가");
+//        itemList.add("가");
+//
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setAdapter(new MyAdapter(itemList));
+//    }
+//        class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
+//
+//            private ArrayList<String> itemList;
+//            public MyAdapter(ArrayList<String> itemList){
+//                this.itemList = itemList;
+//            }
+//
+//
+//            @NonNull
+//            @Override
+//            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//                LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+//                View view = layoutInflater.inflate(R.layout.item_view, parent, false);
+//                return new ViewHolder(view);
+//            }
+//
+//            @Override
+//            public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+//                viewHolder.textView.setText(itemList.get(position));
+//            }
+//
+//            @Override
+//            public int getItemCount() {
+//                return itemList.size();
+//            }
+//
+//            class ViewHolder extends RecyclerView.ViewHolder{
+//                TextView textView;
+//
+//
+//                public ViewHolder(@NonNull View itemView){
+//                    super(itemView);
+//                    textView = itemView.findViewById(R.id.item_text);
+//                }
+//            }
 
 
 //        ListView  listView = findViewById(R.id.list_view);
