@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -76,6 +77,14 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Lifecycle", "1 : onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d("test", "PRE !");
+        BackgroundTask backgroundTask = new BackgroundTask();
+        backgroundTask.execute();
+
+        Log.d("test", "POST !");
+
+
 
         String sharedPreferencesName = "SAVE_1";
         String sharedPreferencesKey = "KEY";
@@ -443,6 +452,40 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
     */
+
+    class BackgroundTask extends AsyncTask<Integer, Integer, Integer>{
+
+        @Override
+        protected void onPreExecute() {
+            Log.d("test", "onPreExcute");
+            super.onPreExecute();
+
+        }
+        @Override
+        protected Integer doInBackground(Integer... integers) {
+            int result = 0;
+            for (int i = 0 ; i< 100; i++){
+                result++;
+                if(i%10 == 0){
+                    publishProgress(i);
+                }
+            }
+            return result;
+        }
+
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            Log.d("test", "Progess :" + values[0] +"%" );
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            Log.d("test", "Result : " + integer);
+            super.onPostExecute(integer);
+        }
+    }
 
     @Override
     protected  void onStart(){
