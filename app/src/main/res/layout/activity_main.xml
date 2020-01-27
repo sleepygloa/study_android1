@@ -7,6 +7,19 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/colorAccent"
+        />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/colorPrimaryDark"
+        />
+    <!--
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
@@ -19,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
-
+-->
     <!--
     <view class="androidx.appcompat.app.AlertController$RecycleListView"
         android:layout_width="match_parent"

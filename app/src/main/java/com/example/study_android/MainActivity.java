@@ -35,11 +35,22 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.RequestOptions;
+import com.facebook.stetho.Stetho;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -72,11 +83,42 @@ public class MainActivity extends AppCompatActivity {
     ViewPager viewPager;
     TabLayout tabLayout;
 
+    TextView textview1;
+    MyService myService;
+    TextView textView2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("Lifecycle", "1 : onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Stetho.initializeWithDefaults(this);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addNetworkInterceptor(new StethoInterceptor())
+                .build();
+
+        Retrofit retrofit =
+                new Retrofit
+                    .Builder()
+                    .baseUrl("http://api.github.com/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        myService = retrofit.create(MyService.class);
+
+        textView = findViewById(R.id.textView1);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestUserRepo();
+            }
+        });
+        textView2 = findViewById(R.id.textView2);
+        textView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postUser();
+            }
+        });
 
         Log.d("test", "PRE !");
         BackgroundTask backgroundTask = new BackgroundTask();
@@ -452,6 +494,37 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
     */
+
+    public void postUser(){
+        Call<JsonArray> postUser = myService.postUser("sleepygloa", 20);
+        postUser.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void requestUserRepo(){
+        Call<JsonArray> requestUserRepo = myService.getUseRepositories("sleepygloa");
+        requestUserRepo.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+
+            }
+        });
+
+    }
 
     class BackgroundTask extends AsyncTask<Integer, Integer, Integer>{
 
