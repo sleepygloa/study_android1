@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,9 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -87,11 +91,24 @@ public class MainActivity extends AppCompatActivity {
     MyService myService;
     TextView textView2;
 
+    int requestCode = 1001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("Lifecycle", "1 : onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //권한을 얻었는지 확인 하는 부분
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            //권한을 설명해줘야 할 필요가 있는지
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)){
+                //권한을 설명해준다.
+            }else{
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                        requestCode);
+            }
+        }
 
         Stetho.initializeWithDefaults(this);
         OkHttpClient okHttpClient = new OkHttpClient.Builder().addNetworkInterceptor(new StethoInterceptor())
@@ -494,6 +511,18 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
     */
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == this.requestCode){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Log.d("test", "PERMISSION_GRANTED");
+            }else{
+                Log.d("test", "PERMISSION_DENIED");
+            }
+        }
+    }
 
     public void postUser(){
         Call<JsonArray> postUser = myService.postUser("sleepygloa", 20);
